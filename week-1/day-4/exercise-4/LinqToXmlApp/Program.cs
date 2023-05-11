@@ -1,43 +1,55 @@
-﻿namespace LinqToXmlApp
+﻿using System;
+using System.Linq;
+using System.Xml.Linq;
+class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+
+        XDocument xmlDocument = new XDocument(
+            new XElement("Books",
+                new XElement("Book",
+                    new XElement("Title", "The Alchemist"),
+                    new XElement("Author", "Paulo Coelho"),
+                    new XElement("Genre", "Fiction")
+                ),
+                new XElement("Book",
+                    new XElement("Title", "To Kill a Mockingbird"),
+                    new XElement("Author", "Harper Lee"),
+                    new XElement("Genre", "Classics")
+                ),
+                new XElement("Book",
+                    new XElement("Title", "The Great Gatsby"),
+                    new XElement("Author", "F. Scott Fitzgerald"),
+                    new XElement("Genre", "Classics")
+                )
+            )
+        );
+
+        string genre = "Classics";
+        var booksInGenre = xmlDocument.Descendants("Book")
+                                      .Where(b => b.Element("Genre").Value == genre);
+        Console.WriteLine($"Books in the genre '{genre}':");
+        foreach (var book in booksInGenre)
         {
-            // Assume there is an XML document with the following structure:
-            // <Books>
-            //     <Book>
-            //         <Title>Book Title 1</Title>
-            //         <Author>Author 1</Author>
-            //         <Genre>Genre 1</Genre>
-            //     </Book>
-            //     ...
-            // </Books>
-            // Write above book structure as a c# string
-            string xmlString = @"<Books>
-                                    <Book>
-                                        <Title>Book Title 1</Title>
-                                        <Author>Author 1</Author>
-                                        <Genre>Genre 1</Genre>
-                                    </Book>
-                                    <Book>
-                                        <Title>Book Title 2</Title>
-                                        <Author>Author 2</Author>
-                                        <Genre>Genre 2</Genre>
-                                    </Book>
-                                    <Book>
-                                        <Title>Book Title 3</Title>
-                                        <Author>Author 3</Author>
-                                        <Genre>Genre 3</Genre>
-                                    </Book>
-                                </Books>";
-
-            // Create an XDocument object from the XML string
-
-            // Write the title of all books to the console
-
-            // Write the title of all books with genre "Genre 1" to the console
-
+            Console.WriteLine($"Title: {book.Element("Title").Value}, Author: {book.Element("Author").Value}");
         }
+        Console.WriteLine();
+
+        XElement newBook = new XElement("Book",
+                                new XElement("Title", "Pride and Prejudice"),
+                                new XElement("Author", "Jane Austen"),
+                                new XElement("Genre", "Classics")
+                            );
+        xmlDocument.Root.Add(newBook);
+
+        XElement existingBook = xmlDocument.Descendants("Book")
+                                           .FirstOrDefault(b => b.Element("Title").Value == "The Alchemist");
+        if (existingBook != null)
+        {
+            existingBook.Element("Author").Value = "Paulo Coelho (Updated)";
+        }
+        Console.WriteLine("Modified XML document:");
+        Console.WriteLine(xmlDocument);
     }
 }
