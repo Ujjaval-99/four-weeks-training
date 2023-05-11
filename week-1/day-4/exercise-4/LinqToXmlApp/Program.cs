@@ -9,19 +9,19 @@ class Program
         XDocument xmlDocument = new XDocument(
             new XElement("Books",
                 new XElement("Book",
-                    new XElement("Title", "The Alchemist"),
-                    new XElement("Author", "Paulo Coelho"),
-                    new XElement("Genre", "Fiction")
+                    new XElement("Title", "The Monk"),
+                    new XElement("Author", "Jay Shetty"),
+                    new XElement("Genre", "Motivation")
                 ),
                 new XElement("Book",
-                    new XElement("Title", "To Kill a Mockingbird"),
-                    new XElement("Author", "Harper Lee"),
-                    new XElement("Genre", "Classics")
+                    new XElement("Title", "Ramayan"),
+                    new XElement("Author", "Valmiki ji"),
+                    new XElement("Genre", "Devotees")
                 ),
-                new XElement("Book",
-                    new XElement("Title", "The Great Gatsby"),
-                    new XElement("Author", "F. Scott Fitzgerald"),
-                    new XElement("Genre", "Classics")
+               new XElement("Book",
+                    new XElement("Title", "Mahabharat"),
+                    new XElement("Author", "Ved Vyas ji"),
+                    new XElement("Genre", "Devotees")
                 )
             )
         );
