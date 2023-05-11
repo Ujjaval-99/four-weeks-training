@@ -14,12 +14,34 @@
             new Product { Name = "Jeans", Category = "Clothing", Price = 60.00M },
             new Product { Name = "Sneakers", Category = "Footwear", Price = 100.00M }
         };
+            var productCountByCategory = products.GroupBy(p => p.Category)
+                                             .Select(g => new { Category = g.Key, Count = g.Count() });
 
-            // Use LINQ to perform the following operations:
-            // 1. Group products by category
-            // 2. Count the number of products in each category
-            // 3. Calculate the total price of products in each category
-            // 4. Find the most expensive product in each category
+            Console.WriteLine("Number of products in each category:");
+            foreach (var item in productCountByCategory)
+            {
+                Console.WriteLine($"{item.Category}: {item.Count}");
+            }
+
+
+            var totalPriceByCategory = products.GroupBy(p => p.Category)
+                                               .Select(g => new { Category = g.Key, TotalPrice = g.Sum(p => p.Price) });
+
+            Console.WriteLine("\nTotal price of products in each category:");
+            foreach (var item in totalPriceByCategory)
+            {
+                Console.WriteLine($"{item.Category}: {item.TotalPrice:C}");
+            }
+
+
+            var mostExpensiveProductByCategory = products.GroupBy(p => p.Category)
+                                                        .Select(g => new { Category = g.Key, MostExpensiveProduct = g.Max(p => p.Price) });
+
+            Console.WriteLine("\nMost expensive product in each category:");
+            foreach (var item in mostExpensiveProductByCategory)
+            {
+                Console.WriteLine($"{item.Category}: {item.MostExpensiveProduct:C}");
+            }
         }
     }
 }
