@@ -1,37 +1,38 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
 
-namespace QueryOptimizationApp
+class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            List<int> data = GenerateRandomNumbers(10000000);
-            Stopwatch sw = Stopwatch.StartNew();
-            // Current implementation
-            var originalQuery = data.Where(x => x > 100).OrderByDescending(x => x).Take(10);
-            sw.Stop();
-            Console.WriteLine("Original Query: {0} ms", sw.ElapsedMilliseconds);
 
-            // Optimized implementation
-            sw.Restart();
-            
-            sw.Stop();
-            Console.WriteLine("Optimized Query: {0} ms", sw.ElapsedMilliseconds);
-        }
+        int[] data = Enumerable.Range(1, 100).ToArray();
 
-        static List<int> GenerateRandomNumbers(int count)
-        {
-            Random random = new Random();
-            List<int> numbers = new List<int>();
 
-            for (int i = 0; i < count; i++)
-            {
-                int randomNumber = random.Next();
-                numbers.Add(randomNumber);
-            }
+        Stopwatch stopwatch = Stopwatch.StartNew();
 
-            return numbers;
-        }
+        var result = data.Where(x => x % 3 == 0).Select(x => x * x).ToList();
+
+        stopwatch.Stop();
+        Console.WriteLine($"Original query execution time: {stopwatch.ElapsedMilliseconds} ms");
+
+
+        stopwatch.Restart();
+
+        var optimizedResult = data.AsParallel()
+                                  .Where(x => x % 3 == 0)
+                                  .Select(x => x * x)
+                                  .ToList();
+
+        stopwatch.Stop();
+        Console.WriteLine($"Optimized query execution time: {stopwatch.ElapsedMilliseconds} ms");
+
+
+        Console.WriteLine($"Original query result count: {result.Count}");
+        Console.WriteLine($"Optimized query result count: {optimizedResult.Count}");
+        Console.WriteLine($"Results are equal: {result.SequenceEqual(optimizedResult)}");
+
     }
+
 }

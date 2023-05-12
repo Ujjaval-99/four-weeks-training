@@ -1,20 +1,35 @@
-﻿namespace IteratorsApp
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+public class FibonacciIterator : IEnumerable<int>
 {
-    internal class Program
+    public IEnumerator<int> GetEnumerator()
     {
-        static void Main(string[] args)
+        int previousNumber = 0;
+        int currentNumber = 1;
+        int count = 0;
+        while (count < 9) // Generating first 10 numbers
         {
-            var fibonacci = FibonacciSequence().Take(10);
-            foreach (int number in fibonacci)
-            {
-                Console.WriteLine(number);
-            }
+            yield return previousNumber;
+            int nextNumber = previousNumber + currentNumber;
+            previousNumber = currentNumber;
+            currentNumber = nextNumber;
+            count++;
         }
-        // https://www.c-sharpcorner.com/UploadFile/5ef30d/understanding-yield-return-in-C-Sharp/
-        // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/yield
-        public static IEnumerable<int> FibonacciSequence()
+    }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        FibonacciIterator fibonacciIterator = new FibonacciIterator();
+        foreach (int number in fibonacciIterator)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(number);
         }
     }
 }

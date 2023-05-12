@@ -1,12 +1,20 @@
-﻿namespace LinqFilterAndSort
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Person
 {
-    internal class Program
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int Age { get; set; }
+}
+
+class Program
+{
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            // Create a list of Person objects
-            // Use LINQ to filter and sort the list
-            // Print the filtered and sorted list of people to the console
-        }
+
+        List<Person> people = new List<Person>
+       
     }
 }

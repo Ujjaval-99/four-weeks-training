@@ -14,12 +14,7 @@
             new Product { Name = "Jeans", Category = "Clothing", Price = 60.00M },
             new Product { Name = "Sneakers", Category = "Footwear", Price = 100.00M }
         };
-
-            // Use LINQ to perform the following operations:
-            // 1. Group products by category
-            // 2. Count the number of products in each category
-            // 3. Calculate the total price of products in each category
-            // 4. Find the most expensive product in each category
+            
         }
     }
 }
